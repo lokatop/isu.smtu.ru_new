@@ -31,11 +31,11 @@ class Pagination {
             }
         }
         if (!is_null($links)) {
-            if ($this->current_page > 1) {
-                $links = $this->generateHtml(1, 'Вперед').$links;
+            if ($this->current_page >= 1 && $this->current_page<$this->amount) {
+                $links = $this->generateHtml($this->current_page+1, 'Вперед').$links;
             }
-            if ($this->current_page < $this->amount) {
-                $links .= $this->generateHtml($this->amount, 'Назад');
+            if ($this->current_page <= $this->amount  && $this->current_page>1) {
+                $links .= $this->generateHtml($this->current_page-1, 'Назад');
             }
         }
         $html .= $links.' </ul></nav>';
@@ -46,7 +46,10 @@ class Pagination {
         if (!$text) {
             $text = $page;
         }
-        return '<li class="page-item"><a class="page-link" href="/'.$this->route['controller'].'/'.$this->route['action'].'/'.$page.'">'.$text.'</a></li>';
+        //print_r($this->route);
+        return '<li class="page-item"><a class="page-link" href="/'.
+            $this->route['controller'].'/' .$page.'">'.$text.'</a></li>';
+
     }
 
     private function limits() {
