@@ -13,7 +13,6 @@ class Portfolio extends Model {
 	}
 
 	public function postsList($route,$max) {
-		//$max = 10;
 		$params = [
 			'max' => $max,
 			'start' => ((($route['page'] ?? 1)-1) * $max),
@@ -24,7 +23,30 @@ class Portfolio extends Model {
 		return $this->db->row('SELECT * FROM records');
 	}
 
+    public function postEdit($post, $id) {
+        $params = [
+            'id' => $id,
+            'subject' => $post['subject'],
+            'topic' => $post['topic'],
+            'semester' => $post['semester'],
+            'rating' => $post['rating'],
+        ];
+        $this->db->query('UPDATE records SET subject = :subject, topic = :topic, semester = :semester, rating = :rating WHERE id = :id', $params);
+    }
 
+    public function postDelete($id) {
+        $params = [
+            'id' => $id,
+        ];
+        $this->db->query('DELETE FROM records WHERE id = :id', $params);
+    }
+
+    public function getPost($id) {
+        $params = [
+            'id' => $id,
+        ];
+        return $this->db->row('SELECT * FROM records WHERE id = :id',$params);
+    }
 
     public function postAdd($post) {
         $params = [

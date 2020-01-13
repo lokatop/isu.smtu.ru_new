@@ -19,14 +19,12 @@ class PortfolioController extends Controller {
 	        $anyVar= $portfolio->getAll();
 	        $this->postAction($_POST);
             $vars = [
-                //'list' => $portfolio->postsList($this->route['id'])[0],
                 'list'=> $portfolio->getAll(),
                 'var' => $anyVar,
             ];
             $this->view->render('Главная страница', $vars);
         }else{
-	        $max_posts = 5;
-
+	        $max_posts = 10;
             $pagination = new Pagination($this->route, $portfolio->postsCount(),$max_posts);
 
             $vars = [
@@ -46,5 +44,37 @@ class PortfolioController extends Controller {
         return $portfolio->postAdd($post);
 	}
 
+    public function editAction() {
+        $portfolio = new Portfolio();
 
+        if (isset($this->route['id'])){
+            $id = $this->route['id'];
+            $anyVar = $portfolio->getPost($id);
+            $vars = [
+                'id' => $id,
+                'subject' => $anyVar[0]['subject'],
+                'topic' => $anyVar[0]['topic'],
+                'semester' => $anyVar[0]['semester'],
+                'rating' => $anyVar[0]['rating'],
+            ];
+            $this->view->render('Меняем данные', $vars);
+            if (isset($_POST['update'])){
+                $portfolio->postEdit($_POST,$id);
+            }
+            if (isset($_POST['delete'])){
+                $portfolio->postDelete($id);
+            }
+        }else{
+            $this->view->render('Меняем данные');
+
+            if ($_POST){
+                $this->postAction($_POST);
+                $vars = [
+                    'list'=> $portfolio->getAll(),
+                    'var' => $this->route,
+                ];
+                $this->view->render('Меняем данные', $vars);
+            }
+        }
+    }
 }

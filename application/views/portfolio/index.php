@@ -1,3 +1,5 @@
+
+<?php include_once 'application/views/layouts/header.php' ?>
 <main>
     <div class="container">
         <div class="py-5 text-center">
@@ -15,12 +17,14 @@
                                 <tbody>
                                 <?php
                                 if (!empty($list)) : ?>
-
                                     <?php $i=1; $probel = ', ';
                                     foreach ($list as $val): ?>
                                         <tr class="gradeA odd" role="row">
-                                        <td class="sorting_1"> <?php echo $i; ?> </td>
-
+                                            <td class="sorting_1">
+                                            <a class="fancybox-data-edit" data-type="iframe" data-src="/module/portfolio/edit_portfolio_practice/<?php echo $val['id'] ?>" href="javascript:;">
+                                                 <?php echo $i; ?>
+                                            </a>
+                                            </td>
                                         <td>
                                             <?php echo $val['subject']
                                                 .$probel.$val['topic']
@@ -35,8 +39,8 @@
                                 <tr class="gradeA odd" role="row">
                                     <td class="sorting_1"></td>
                                     <td>
-                                        <!--  modal -->
-                                        <?php include_once 'modal.php'?>
+                                        <!--  fancyBox -->
+                                        <a href="javascript:;" type="button" class="card_edit_comment btn-main">добавить!</a>
                                     </td>
 
                                     <td></td>
@@ -57,3 +61,13 @@
 
     </div>
 </main>
+
+<?php include_once 'application/views/layouts/footer.php' ?>
+
+<script>
+    $('[data-fancybox="edit"]').fancybox({
+        'afterClose'  : function() {
+            alert('Done!');
+        }
+    });
+</script>

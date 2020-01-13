@@ -14,4 +14,12 @@ return [
 		'controller' => 'portfolio',
 		'action' => 'index',
 	],
+    'module/portfolio/edit_portfolio_practice' => [
+        'controller' => 'portfolio',
+        'action' => 'edit',
+    ],
+    'module/portfolio/edit_portfolio_practice/{id:\d+}' => [
+        'controller' => 'portfolio',
+        'action' => 'edit',
+    ],
 ];
